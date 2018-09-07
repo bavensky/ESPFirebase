@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport">
+  <title>appName: test</title>
+
+
+  <!-- build:css styles/vendor.css -->
+  <!-- bower:css -->
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="../bower_components/bulma/css/bulma.css">
+  <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+<body>
+
+<!--[if IE]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="container">
+  <section class="section">
+    <div class="container">
+      <h1 class="title">NETPIE.io<i class="hide fa-li fa fa-spinner fa-spin netpie-connecting"></i></h1>
+      <h2 class="subtitle">
+        webapp template
+      </h2>
+      <div class="notification">
+        hello
+      </div>
+  </section>
+</div>
+
+
+<!-- build:js scripts/vendor.js -->
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/moment/moment.js"></script>
+<script src="../bower_components/moment-timezone/moment-timezone.js"></script>
+<!-- bower:js -->
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js scripts/main.js -->
+<script src="libs/microgear.js"></script>
+<script src="scripts/config.js"></script>
+<script src="scripts/main.js"></script>
+<!-- endbuild -->
+
+
+<script type="text/javascript">
+  jQuery('document').ready(function ($) {
+    connect_netpie()
+    Global.recognition = new webkitSpeechRecognition()
+    Global.recognition.lang = 'th-TH'
+    Global.recognition.continuous = true
+    Global.recognition.interimResults = true
+    var utterance = new SpeechSynthesisUtterance()
+    Global.speak = function (text, endFn, startFn) {
+      utterance.text = text
+      utterance.pitch = 1.0
+      // utterance.volume = 0.5;
+      utterance.lang = 'th-TH'
+      utterance.onstart = function (event) {
+        startFn && startFn(event)
+      }
+
+      utterance.onend = function (event) {
+        endFn && endFn(event)
+      }
+
+      if (!speechSynthesis.speaking) {
+        speechSynthesis.speak(utterance, function () {
+          console.log('arguments: ', arguments)
+        })
+      }
+    }
+    console.log('ready')
+    Global.speak('สวัสดี', function () { console.log('speak done')})
+
+  })
+</script>
+</body>
+</html>
