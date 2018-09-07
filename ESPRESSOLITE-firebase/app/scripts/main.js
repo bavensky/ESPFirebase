@@ -7,6 +7,8 @@ Config.appSecret = '0rUQNAUSVJRxKC9xzuC1QJ6H6';
 Config.topic = '/gearname/topic1';
 Config.alias = 'web2esp';
 
+var xPosition;
+
 microgear = Microgear.create({
   key: Config.appKey,
   secret: Config.appSecret,
@@ -30,8 +32,22 @@ microgear.on('absent', function(event) {
 });
 
 microgear.on('message', function(topic, msg) {
+  console.log("topic message: "+ topic);
   console.log("Incoming message: "+ msg);
+  if(topic == "/devSuperman/gearname/espRobot/$/command") {
+    if (!isNaN(parseInt(msg))) {
+      xPosition = parseInt(msg);
+    } else {
+      xPosition = 0;
+    }
+  }
+
+  moveKidbright(msg);
 });
+
+function moveKidbright(x) {
+  player_sprite.position.x = parseInt(x);
+}
 
 function hideNetpieConnectingIcon() {
   $('.netpie-connecting').hide();
